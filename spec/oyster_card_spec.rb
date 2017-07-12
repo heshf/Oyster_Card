@@ -24,17 +24,29 @@ describe 'a new card should contain no journeys' do
     end
 
     it 'cannot have a balance of more than 90' do
-  	  expect { oyster_card.top_up(91) }.to raise_error "Maximum balance exceeded, please keep your balance at £#{OysterCard::MAXIMUM_BALANCE} or below."
+  	  expect { oyster_card.top_up(OysterCard::MAXIMUM_BALANCE+1) }
+  	  	.to raise_error "Maximum balance exceeded, please keep your balance at £#{OysterCard::MAXIMUM_BALANCE} or below."
     end
   end
 
   describe '#touch_in' do
-    before { oyster_card.top_up(top_up_amount) }
+
+  	context 'balance is less than £1' do
+
+    	it 'does not allow touch in if balance is less than £1' do
+      		expect{ entering }.to raise_error "Seek Assistance: not enough money!"
+    	end
+  	end
+
+	context 'enough balance on card' do
+
+	before { oyster_card.top_up(top_up_amount) }     #needs changing to include journey
     it 'should store the entry station' do
       entering
       expect(oyster_card.entry_station).to eq station
     end
   end
+
 
   describe '#touch_out' do
 	 before { oyster_card.top_up(top_up_amount) }
@@ -55,10 +67,6 @@ describe 'a new card should contain no journeys' do
     end
   end
 
-  describe 'in_journey?' do
-    it 'should be false by default' do
-      expect(oyster_card.in_journey?).to be true
-    end
 
     it 'is not on a journey when touched out' do
       oyster_card.top_up(top_up_amount)
@@ -68,12 +76,6 @@ describe 'a new card should contain no journeys' do
     end
   end
 
-  context 'balance is less than £1' do
-
-    it 'does not allow touch in if balance is less than £1' do
-      expect{ entering }.to raise_error "Seek Assistance: not enough money!"
-    end
-  end
 
   it 'will have balance deducted when touching out' do
   	oyster_card.top_up(top_up_amount)

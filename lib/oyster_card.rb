@@ -8,7 +8,6 @@ class OysterCard
 
 	def initialize
 		@balance = 0
-		@in_journey = false
 		@entry_station = nil
 		@exit_station = nil
 		@journeys = []
@@ -22,14 +21,12 @@ class OysterCard
 
 	def touch_in(station)
 		fail("Seek Assistance: not enough money!") if @balance < MINIMUM_FARE
-		# @in_journey = true
 		@entry_station = station
 	end
 
-	def touch_out(station2)
-		# @in_journey = false
+	def touch_out(station)
 		deduct(MINIMUM_FARE)
-		@exit_station = station2
+		@exit_station = station
 		@journeys << {entry_station => exit_station}
 	end
 
