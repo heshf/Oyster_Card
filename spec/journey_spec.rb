@@ -4,12 +4,12 @@ describe Journey do
 
   let(:entry_station) { double :station }
 	let(:exit_station) { double :station }
-  subject(:journey) { described_class.new(entry_station) }
+  subject(:journey) { described_class.new }
 
-  describe '#initialize' do
-	  it'journey has an entry station but no exit station' do
-	    expect(journey.entry_station).to eq(entry_station)
-	  end
+  describe '#start_journey' do
+  	it 'should add the entry station to journey' do
+  		expect{ journey.start_journey(entry_station) }.to change { journey.entry_station }.from(nil).to entry_station
+  	end
   end
 
 	describe '#end_journey' do
@@ -20,7 +20,7 @@ describe Journey do
 
 
 describe 'in_progress' do
-	
+
 	context 'journey in progress' do
 		it 'should return true' do
 			expect(journey.in_progress?).to eq true
@@ -30,7 +30,7 @@ describe 'in_progress' do
 	context 'when journey is complete' do
 		before { journey.end_journey(exit_station) }
 		it 'should return false' do
-			expect(journey.in_progress?).to eq false	
+			expect(journey.in_progress?).to eq false
 		end
 	end
 end
