@@ -1,4 +1,3 @@
-require_relative 'oyster_card'
 
 class Journey
 
@@ -19,5 +18,5 @@ class Journey
   def fare
   	 @entry_station && @exit_station ? OysterCard::MINIMUM_FARE : OysterCard::PENALTY_FARE
   end
-	
+
 end

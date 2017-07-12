@@ -1,3 +1,6 @@
+require_relative 'journey'
+require_relative 'station'
+
 class OysterCard
 
 	attr_reader :balance, :journeys
@@ -17,15 +20,15 @@ class OysterCard
 
 
 	def touch_in(station, journey = Journey.new)
-		deduct(last_journey.fare) if in_journey?
 		fail("Seek Assistance: not enough money!") if @balance < MINIMUM_FARE
+		deduct(last_journey.fare) if in_journey?
 		update_journey_entry_station(station, journey)
 		store_new_journey(journey)
 	end
 
 	def touch_out(station)
-		deduct(MINIMUM_FARE)
-		update_journey_exit_station(station)
+		update_journey_exit_station(station) if in_journey?
+		last_journey ? deduct(last_journey.fare) : deduct(PENALTY_FARE)
 	end
 
 	def in_journey?

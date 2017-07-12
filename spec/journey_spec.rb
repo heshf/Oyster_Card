@@ -19,7 +19,6 @@ describe Journey do
 			end
 		end
 
-
 	describe 'in_progress' do
 
 		context 'journey in progress' do
@@ -37,30 +36,22 @@ describe Journey do
 	end
 
 	describe 'fare' do
-
 		context 'journey completed successfully' do
-
 			before do
-				journey.start_journey(entry_station) 
+				journey.start_journey(entry_station)
 				journey.end_journey(exit_station)
 			end
-
 			it 'should return the minium fare of £1' do
 				expect(journey.fare).to eq OysterCard::MINIMUM_FARE
 			end
 		end
-
 		context "touched in, didn't touch out" do
-
 			before do
 				journey.start_journey(entry_station)
 			end
-
 			it 'should return a penalty fare of £6' do
 				expect(journey.fare).to eq OysterCard::PENALTY_FARE
 			end
-
 		end
 	end
-
 end

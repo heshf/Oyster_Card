@@ -9,9 +9,11 @@ describe OysterCard do
   let(:journey) { double :journey }
   let(:entering){ oyster_card.touch_in(station, journey) }
   let(:exiting){ oyster_card.touch_out(station2) }
-  before do 
+  before do
   			allow(journey).to receive(:start_journey)
   			allow(journey).to receive(:end_journey)
+        allow(journey).to receive(:fare) { OysterCard::MINIMUM_FARE }
+        allow(journey).to receive(:in_progress?) { false }
   		end
 
   describe 'a new card should contain no journeys' do
@@ -38,24 +40,30 @@ describe OysterCard do
     	end
   	end
 	  context 'enough balance on card' do
-      before { oyster_card.top_up(top_up_amount) }
-      it 'stores a new journey in journeys array' do
-        expect{ entering }.to change{ oyster_card.journeys.length }.from(0).to 1
+      before do
+        oyster_card.top_up(top_up_amount)
+        entering
+      end
+      it 'should store the journey in journeys' do
+        expect(oyster_card.journeys).to eq [journey]
+      end
+      it 'charges penalty fare when not touched out' do
+        allow(journey).to receive(:in_progress?) { true }
+        allow(journey).to receive(:fare) { OysterCard::PENALTY_FARE }
+        expect{ oyster_card.touch_in(station, journey) }.to change{ oyster_card.balance }.by -OysterCard::PENALTY_FARE
       end
     end
-
   end
 
   describe '#touch_out' do
 	  before { oyster_card.top_up(top_up_amount) }
-	    it 'should store the journey in journeys' do
-	 	    entering
-        exiting
-	 	    expect(oyster_card.journeys).to eq [journey]
-	    end
+
+    it 'charges a penalty fare for not touching in' do
+      allow(journey).to receive(:fare) { OysterCard::PENALTY_FARE }
+      expect{ exiting }.to change{ oyster_card.balance }.by -OysterCard::PENALTY_FARE
+    end
 
       it 'should end the journey' do
-        allow(journey).to receive(:in_progress?) { false }
         entering
         exiting
         expect(oyster_card.in_journey?).to be false
