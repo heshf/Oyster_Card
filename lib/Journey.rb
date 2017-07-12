@@ -11,4 +11,10 @@ class Journey
   def end_journey(exit_station)
     @exit_station = exit_station
   end
+
+  def in_progress?
+  	@exit_station == nil
+  end
+
+
 end

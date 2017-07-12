@@ -11,6 +11,6 @@ THINGS TO MOVE
 	@journeys << {entry_station => exit_station}
 
 
-def in_journey?
-		@exit_station == nil
-	end
+# def in_journey?
+# 		@exit_station == nil
+# 	end

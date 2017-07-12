@@ -19,9 +19,20 @@ describe Journey do
 	end
 
 
+describe 'in_progress' do
+	
+	context 'journey in progress' do
+		it 'should return true' do
+			expect(journey.in_progress?).to eq true
+		end
+	end
 
-
-
-
+	context 'when journey is complete' do
+		before { journey.end_journey(exit_station) }
+		it 'should return false' do
+			expect(journey.in_progress?).to eq false	
+		end
+	end
+end
 
 end
