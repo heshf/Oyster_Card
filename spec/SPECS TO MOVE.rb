@@ -11,11 +11,11 @@ do
 
 
 
-	  it 'should store the journey in journeys' do
-	 	entering
-        exiting
-	 	expect(oyster_card.journeys).to eq [{station => station2}]
-	 end
+	 #  it 'should store the journey in journeys' do
+	 # 	entering
+  #       exiting
+	 # 	expect(oyster_card.journeys).to eq [{station => station2}]
+	 # end
 
 
 

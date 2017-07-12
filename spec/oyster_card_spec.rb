@@ -9,7 +9,10 @@ describe OysterCard do
   let(:journey) { double :journey }
   let(:entering){ oyster_card.touch_in(station, journey) }
   let(:exiting){ oyster_card.touch_out(station2) }
-  before { allow(journey).to receive(:start_journey) }
+  before do 
+  			allow(journey).to receive(:start_journey)
+  			allow(journey).to receive(:end_journey)
+  		end
 
   describe 'a new card should contain no journeys' do
 	  it 'should not have any stored journeys' do
@@ -22,7 +25,7 @@ describe OysterCard do
       expect{ oyster_card.top_up(top_up_amount) }.to change{ oyster_card.balance }.by top_up_amount
     end
 
-    it 'cannot have a balance of more than 90' do
+    it 'cannot have a balance of more than £90' do
   	  expect { oyster_card.top_up(OysterCard::MAXIMUM_BALANCE+1) }
   	  	.to raise_error "Maximum balance exceeded, please keep your balance at £#{OysterCard::MAXIMUM_BALANCE} or below."
     end

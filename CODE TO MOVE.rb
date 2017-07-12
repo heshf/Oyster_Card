@@ -4,11 +4,11 @@ THINGS TO MOVE
 # to start_journey
 
 # @entry_station = station
-	PLUS add instance of journey with entry station to the array
+	# PLUS add instance of journey with entry station to the array
 # from touch_out
 # to end_journey
 # @exit_station = station2
-	@journeys << {entry_station => exit_station}
+	# @journeys << {entry_station => exit_station}
 
 
 # def in_journey?
